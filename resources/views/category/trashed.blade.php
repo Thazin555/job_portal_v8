@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title')
-    Category Lists
+    Trashed Category
 @endsection
 
 @section('content')
@@ -9,7 +9,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    Category Lists
+                    Trashed Category List
                 </div>
 
                 <div class="card-body">
@@ -19,25 +19,25 @@
                                 <th>Id</th>
                                 <th>Name</th>
                                 <th>Action</th>
-                                <th>Created_at</th>
+                                <th>Deleted_at</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($lists as $list)
+                            @foreach ($trash_lists as $trash)
                                 <tr>
                                     <th>{{ $loop->iteration }}</th>
-                                    <td>{{ $list->name }}</td>
+                                    <td>{{ $trash->name }}</td>
                                     <td>
-                                        <a class="btn btn-secondary btn-sm"
-                                            href="{{ route('category.edit', $list->id) }}">Edit</a>
+                                        <a class="btn btn-success btn-sm"
+                                            href="{{ route('category.restore', $trash->id) }}">Restore</a>
 
-                                        <form action="{{ route('category.destroy', $list->id) }}" method="POST" class="d-inline">
+                                        <form action="{{ route('category.forceDelete', $trash->id) }}" method="POST" class="d-inline">
                                             @csrf
                                             @method('DELETE')
-                                            <button class="btn btn-sm btn-danger">Delete</button>
+                                            <button class="btn btn-sm btn-danger">Force Delete</button>
                                         </form>
                                     </td>
-                                    <td>{{ $list->created_at }}</td>
+                                    <td>{{ $trash->deleted_at }}</td>
                                 </tr>
                             @endforeach
                         </tbody>

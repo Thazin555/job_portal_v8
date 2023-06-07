@@ -19,6 +19,13 @@ class CategoryController extends Controller
         return view('category.index', compact('lists'));
     }
 
+    public function trashed_category()
+    {
+        $trash_lists = Category::onlyTrashed()->get();
+        // dd($trash_lists);
+        return view('category.trashed', compact('trash_lists'));
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -63,7 +70,7 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        return $category;
+        return view('category.edit', compact('category'));
     }
 
     /**
@@ -75,7 +82,11 @@ class CategoryController extends Controller
      */
     public function update(UpdateCategoryRequest $request, Category $category)
     {
-        //
+        $category->update([
+            'name' => $request->name
+        ]);
+
+        return redirect()->route('category.index');
     }
 
     /**
@@ -86,6 +97,21 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        //
+        $category->delete();
+        return redirect()->route('category.index');
+    }
+
+    public function restore_category($id)
+    {
+        $category = Category::withTrashed()->find($id);
+        $category->restore();
+        return redirect()->route('category.index');
+    }
+
+    public function forceDelete($id)
+    {
+        $category = Category::withTrashed()->find($id);
+        $category->forceDelete();
+        return redirect()->route('category.index');
     }
 }

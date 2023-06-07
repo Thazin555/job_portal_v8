@@ -24,6 +24,7 @@
                 <ul class="dropdown-menu">
                     <x-menu-item link="{{ route('category.index') }}">Lists</x-menu-item>
                     <x-menu-item link="{{ route('category.create') }}">Create</x-menu-item>
+                    <x-menu-item link="{{ route('category.trashed') }}">Trashed Lists</x-menu-item>
                 </ul>
             </li>
 
